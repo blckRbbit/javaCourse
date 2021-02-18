@@ -30,13 +30,13 @@ public class Main {
         System.out.println("end task_3===============================================================================");
         System.out.println(moreThanTenLessThanTwenty(10, 11));
         System.out.println("end task_4===============================================================================");
-        positiveOrNegativeNumber(-1);
+        positiveOrNegativeNumber(0);
         System.out.println("end task_5===============================================================================");
         System.out.println(booleanPositiveOrNegativeNumber(0));
         System.out.println("end task_6===============================================================================");
         helloName("Вася");
         System.out.println("end task_7===============================================================================");
-        isLeapYear(300);
+        isLeapYear(2020);
         System.out.println("end task_8===============================================================================");
     }
 
@@ -82,24 +82,38 @@ public class Main {
     }
 
     private static boolean booleanPositiveOrNegativeNumber (int number) {
-        return number <= 0;
+        return number < 0;
     }
 
     private static void helloName (String name) {
-        String hello = "Привет, ";
-        System.out.println(hello + name + "!");
+        System.out.println("Привет, " + name + "!");
     }
 
     private static void isLeapYear (int year) {
-        String leapYear = "Этот год високосный";
-        if (year % 4 == 0 && year < 100) {
-            System.out.println(leapYear);
-        } else if (year % 4 == 0 && year >= 100 && year % 100 != 0 && year < 400) {
-            System.out.println(leapYear);
-        } else if (year >= 400 && year % 4 == 0 && year % 400 == 0 && year % 100 == 0) {
-            System.out.println(leapYear);
+        boolean moreLess = aYearMoreOrLessThanFourHundred(year);
+        if (moreLess) {
+            System.out.println("Этот год високосный");
         } else {
             System.out.println("Это не високосный год");
         }
+    }
+
+    private static boolean aYearMoreOrLessThanFourHundred (int year) {
+
+        if (year < 400) {
+            return lessThanFourHundredYears(year);
+        } else {
+            return overFourHundredYears(year);
+        }
+    }
+
+    private static boolean lessThanFourHundredYears (int year) {
+        return year % 4 == 0 && year % 100 != 0;
+    }
+
+    private static boolean overFourHundredYears (int year) {
+        if (year % 100 == 0 && year % 400 != 0) {
+            return false;
+        } else return year % 4 == 0;
     }
 }
