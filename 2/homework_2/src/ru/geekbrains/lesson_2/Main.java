@@ -7,23 +7,48 @@ public class Main {
     public static void main(String[] args) {
 	    int [] changeIt = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         System.out.println(Arrays.toString(swapZeroAndOne((changeIt))));
-        System.out.println("end task______________________________________________");
+        System.out.println("end task 1______________________________________________");
 
         int [] byThree = new int [8];
         System.out.println(Arrays.toString(increaseByThree(byThree)));
-        System.out.println("end task______________________________________________");
+        System.out.println("end task 2______________________________________________");
 
         int [] multiplyByTwo = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
         System.out.println(Arrays.toString(lessThanSixMultiplyByTwo(multiplyByTwo)));
-        System.out.println("end task______________________________________________");
+        System.out.println("end task 3______________________________________________");
 
         int [][] oneToDiagonal = {{2, 3, 4, 5}, {5, 6, 7, 8}, {2, 3, 4, 5}, {2, 3, 4, 5}};
         int [][] falseOneToDiagonal = {{2, 3, 4, 5}, {5, 6, 7, 8}, {2, 3, 4, 5}};
 
         mainMatrix(oneToDiagonal);
         mainMatrix(falseOneToDiagonal);
-        System.out.println("end task______________________________________________");
+        System.out.println("end task 4______________________________________________");
+
+        int [] minMaxArray = {1, 5, 3, 2, -11, 4, 5, 2, 4, 8, 9, 1, -1532};
+        getMinMaxElement(minMaxArray);
+        System.out.println("end task 5______________________________________________");
     }
+
+
+//    task 5
+    private static void getMinMaxElement (int [] a)
+//  Определяет минимальный и максимальный элемент массива
+    {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = 0; j < a.length - 1; j++) {
+                int gap;
+                if (a[j] > a[j + 1]) {
+                    gap = a[j];
+                    a[j] = a[j+1];
+                    a[j + 1] = gap;
+                }
+            }
+        }
+        System.out.println("Минимальный элемент в массиве: " + a[0]);
+        System.out.println("Максимальный элемент в массиве: " + a[a.length - 1]);
+    }
+//    end task 5========================================================
+
 
 //    task 4
     private static void mainMatrix (int [][] a)
