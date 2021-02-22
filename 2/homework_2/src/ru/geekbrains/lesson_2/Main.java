@@ -24,13 +24,61 @@ public class Main {
         mainMatrix(falseOneToDiagonal);
         System.out.println("end task 4______________________________________________");
 
-        int [] minMaxArray = {1, 5, 3, 2, -11, 4, 5, 2, 4, 8, 9, 1, -1532};
+        int [] minMaxArray = {1, 5, 3, 2, -11, 4, 5, 2, 4, 8, 9, 1};
         getMinMaxElement(minMaxArray);
         System.out.println("end task 5______________________________________________");
+
+        int [] checkBalance = {2, 2, 2, 1, 2, 2, 10, 1};
+        int [] checkBalance2 = {1, 1, 1, 2, 1};
+        int [] checkBalance3 = {15, 2, 3};
+        System.out.println(checkEqualityOfTwoPartsOfAnArray(checkBalance3));
+        System.out.println("end task 6______________________________________________");
+
+        int n = 1;
+        System.out.println("end task 7______________________________________________");
     }
+
+//    task 7
+    private static int[] shiftByNPositions (int[] a, int n)
+//    Сдвигает элементы массива а на n позиций
+    {
+        return a;
+    }
+//    end task 7========================================================================
+
+
+//    task 6
+
+    private static boolean checkEqualityOfTwoPartsOfAnArray (int [] a)
+//  Проверяет равенство левой и правой части массива
+    {
+        int gap = 0;
+        for (int i = 0; i < a.length;) {
+            gap += a[i];
+            a[i] = 0;
+            int sumRight = countsTheSumInArray(a);
+            if (gap != sumRight) i++;
+            if (sumRight == 0 && gap != sumRight) return false;
+            if (gap == sumRight) return true;
+        }
+        return false;
+    }
+
+    private static int countsTheSumInArray (int [] a)
+//  Считает сумму элементов массива;
+    {
+        int summ = 0;
+        for (int j : a) {
+            summ += j;
+        }
+        return summ;
+    }
+
+//    end task 6========================================================
 
 
 //    task 5
+
     private static void getMinMaxElement (int [] a)
 //  Определяет минимальный и максимальный элемент массива
     {
