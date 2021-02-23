@@ -5,45 +5,80 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("____task 1____");
 	    int [] changeIt = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         System.out.println(Arrays.toString(swapZeroAndOne((changeIt))));
         System.out.println("end task 1______________________________________________");
 
+        System.out.println();
+        System.out.println("____task 2____");
         int [] byThree = new int [8];
         System.out.println(Arrays.toString(increaseByThree(byThree)));
         System.out.println("end task 2______________________________________________");
 
+        System.out.println();
+        System.out.println("____task 3____");
         int [] multiplyByTwo = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
         System.out.println(Arrays.toString(lessThanSixMultiplyByTwo(multiplyByTwo)));
         System.out.println("end task 3______________________________________________");
 
+        System.out.println();
+        System.out.println("____task 4____");
         int [][] oneToDiagonal = {{2, 3, 4, 5}, {5, 6, 7, 8}, {2, 3, 4, 5}, {2, 3, 4, 5}};
         int [][] falseOneToDiagonal = {{2, 3, 4, 5}, {5, 6, 7, 8}, {2, 3, 4, 5}};
-
         mainMatrix(oneToDiagonal);
         mainMatrix(falseOneToDiagonal);
         System.out.println("end task 4______________________________________________");
 
+        System.out.println();
+        System.out.println("____task 5**____");
         int [] minMaxArray = {1, 5, 3, 2, -11, 4, 5, 2, 4, 8, 9, 1};
         getMinMaxElement(minMaxArray);
         System.out.println("end task 5______________________________________________");
 
+        System.out.println();
+        System.out.println("____task 6**____");
         int [] checkBalance = {2, 2, 2, 1, 2, 2, 10, 1};
-        int [] checkBalance2 = {1, 1, 1, 2, 1};
-        int [] checkBalance3 = {15, 2, 3};
-        System.out.println(checkEqualityOfTwoPartsOfAnArray(checkBalance3));
+        System.out.println(checkEqualityOfTwoPartsOfAnArray(checkBalance));
         System.out.println("end task 6______________________________________________");
 
-        int n = 1;
+        System.out.println();
+        System.out.println("____task 7****____");
+        int n = -6;
+        int[] shiftArray = {3, 5, 6, 1, 15};
+        shiftByNPositions(shiftArray, n);
         System.out.println("end task 7______________________________________________");
     }
 
 //    task 7
-    private static int[] shiftByNPositions (int[] a, int n)
-//    Сдвигает элементы массива а на n позиций
+
+    public static int greatestCommonDivisor (int dividend, int divider)
     {
-        return a;
+//  Вычисляем наибольший общий делитель
+        while(divider != 0) {
+            int temp = dividend;
+            dividend = divider;
+            divider = temp % dividend;
+        }
+        return dividend;
     }
+
+    public static void shiftByNPositions(int[] a, int n) {
+//  Сдвигает элементы массива а на n позиций
+        int length = a.length;
+        if (n > a.length) n %= length;
+        if (n < 0)
+            n = length + n;
+        int divisor = greatestCommonDivisor(length, n);
+        for(int i = 0; i < divisor; i++) {
+            int temp = a[i];
+            for(int j = i - n + length; j != i; j = (j - n + length) % length)
+                a[(j + n) % length] = a[j];
+            a[i + n] = temp;
+        }
+        System.out.println(Arrays.toString(a));
+    }
+
 //    end task 7========================================================================
 
 
