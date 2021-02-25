@@ -44,7 +44,7 @@ public class Main {
 
         System.out.println();
         System.out.println("____task 7****____");
-        int n = -6;
+        int n = -2;
         int[] shiftArray = {3, 5, 6, 1, 15};
         shiftByNPositions(shiftArray, n);
         System.out.println("end task 7______________________________________________");
@@ -66,9 +66,8 @@ public class Main {
     public static void shiftByNPositions(int[] a, int n) {
 //  Сдвигает элементы массива а на n позиций
         int length = a.length;
-        if (n > a.length) n %= length;
-        if (n < 0)
-            n = length + n;
+        if (Math.abs(n) > a.length) n = n % length - 1;
+        if (n < 0) n = length + n;
         int divisor = greatestCommonDivisor(length, n);
         for(int i = 0; i < divisor; i++) {
             int temp = a[i];
