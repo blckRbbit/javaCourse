@@ -77,11 +77,10 @@ public class Main {
         }
         System.out.println(Arrays.toString(a));
     }
+//    1111
 
 //    end task 7========================================================================
-
-
-//    task 6
+    
 
     private static boolean checkEqualityOfTwoPartsOfAnArray (int [] a)
 //  Проверяет равенство левой и правой части массива
