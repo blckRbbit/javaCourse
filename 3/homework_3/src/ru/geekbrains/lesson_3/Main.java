@@ -17,25 +17,19 @@ public class Main {
                 int range = (int) (Math.random() * (300 - 10)) + 10;
                 int number = (int) (Math.random() * range);
                 int count = binlog(range) + 1;
-                System.out.println("Ваша задача угадать целое число от 1 до " + range);
-                System.out.println("Отгадайте число с " + count + " попыток ");
-                System.out.println("Загаданное число (Ваш ответ) -> ");
+                outputsTheCondition(range, count);
                 playLevel(number, count);
             } else if (userChoice == 2) {
                 int range = (int) (Math.random() * (1000 - 10)) + 10;
                 int number = (int) (Math.random() * range);
                 int count = binlog(range);
-                System.out.println("Ваша задача угадать целое число от 1 до " + range);
-                System.out.println("Отгадайте число с " + count + " попыток ");
-                System.out.println("Загаданное число (Ваш ответ) -> ");
+                outputsTheCondition(range, count);
                 playLevel(number, count);
             } else if (userChoice == 3){
                 int range = (int) (Math.random() * (1000 - 10)) + 10;
                 int number = (int) (Math.random() * range);
                 int count = binlog(range) - 1;
-                System.out.println("Ваша задача угадать целое число от 1 до " + range);
-                System.out.println("Отгадайте число с " + count + " попыток ");
-                System.out.println("Загаданное число (Ваш ответ) -> ");
+                outputsTheCondition(range, count);
                 playLevel(number, count);
             } else {
                 System.out.println("Такой сложности в этой игре я ещё не придумал :(");
@@ -56,6 +50,14 @@ public class Main {
         System.out.println("3 - сложно");
         System.out.println("Для выхода нажмите 0");
         return scanner.nextInt();
+    }
+
+    private static void outputsTheCondition (int range, int count)
+//  Выводит условия игры в консоль
+    {
+        System.out.println("Ваша задача угадать целое число от 1 до " + range);
+        System.out.println("Отгадайте число с " + count + " попыток ");
+        System.out.println("Загаданное число (Ваш ответ) -> ");
     }
 
     private static void playLevel(int number, int count)
