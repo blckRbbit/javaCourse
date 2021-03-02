@@ -8,9 +8,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int userChoice = choiceOfDifficultyLevel();
-
         while (true) {
+            int userChoice = choiceOfDifficultyLevel();
             if(userChoice == 0) {
                 System.out.println("До встречи!");
                 break;
@@ -42,7 +41,7 @@ public class Main {
                 System.out.println("Такой сложности в этой игре я ещё не придумал :(");
                 break;
             }
-            System.exit(0);
+//            System.exit(0);
         }
         scanner.close();
     }
@@ -59,33 +58,21 @@ public class Main {
         return scanner.nextInt();
     }
 
-    private void playLevel(int number, int count)
+    private static void playLevel(int number, int count)
 //  Основной игровой цикл
     {
         while (true) {
             int enteredNumber = scanner.nextInt();
             if (enteredNumber == number) {
                 System.out.println("Вы угадали!");
-                boolean answer = whetherToContinue();
-                if (answer) choiceOfDifficultyLevel();
-                else {
-                    System.out.println("До встречи!");
-                    System.exit(0);
+                return;
                 }
-            } else if (count == 1) {
+            if (count == 1) {
                 System.out.println("Попытки закончились. Вы проиграли :( ");
-                boolean answer = whetherToContinue();
-                if (answer) choiceOfDifficultyLevel();
-                else {
-                    System.out.println("До встречи!");
-                    System.exit(0);
-                }
+                return;
             } else if (enteredNumber > number) {
                 count--;
                 System.out.println("Загаданное число меньше! Попробуйте ещё раз! (осталось попыток: " + count + ")");
-            } else if (enteredNumber == 0) {
-                System.out.println("До встречи!");
-                break;
             } else {
                 count--;
                 System.out.println("Загаданное число больше! Попробуйте ещё раз! (осталось попыток: " + count + ")");
