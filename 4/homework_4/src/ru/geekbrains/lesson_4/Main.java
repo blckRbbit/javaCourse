@@ -164,10 +164,10 @@ public class Main {
             board = map.clone();
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
-                    if (board[row][col] == DOT_EMPTY) {
-                        board[row][col] = DOT_O;
+                    if (board[col][row] == DOT_EMPTY) {
+                        board[col][row] = DOT_O;
                         int score = minimax(board, 0, HUMAN_TURN);
-                        board[row][col] = DOT_EMPTY;
+                        board[col][row] = DOT_EMPTY;
                         if (score > bestScore) {
                             bestScore = score;
                             x = col;
@@ -177,7 +177,7 @@ public class Main {
                 }
             }
         } while (isNotCellValid(x, y));
-        System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
+        System.out.println("Компьютер походил в точку " + (y + 1) + " " + (x + 1));
         map[x][y] = DOT_O;
     }
 
@@ -195,6 +195,7 @@ public class Main {
                         bestScore = checkScore(board);
                         board[col][row] = DOT_EMPTY;
                         bestScore = Math.max(bestScore, score);
+                        break;
                     }
                 }
             }
@@ -208,6 +209,7 @@ public class Main {
                         bestScore = checkScore(board);
                         board[col][row] = DOT_EMPTY;
                         bestScore = Math.min(bestScore, score);
+                        break;
                     }
                 }
             }
