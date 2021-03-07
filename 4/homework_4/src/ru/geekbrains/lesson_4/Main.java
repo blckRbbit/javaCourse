@@ -66,11 +66,14 @@ public class Main {
     public static void printMap()
 //  Вывод игрового поля в консоль
     {
+        System.out.println();
+        System.out.print("             ");
         for (int i = 0; i <= SIZE; i++) {
             System.out.print(i + " ");
         }
         System.out.println();
         for (int i = 0; i < SIZE; i++) {
+            System.out.print("             ");
             System.out.print((i + 1) + " ");
             for (int j = 0; j < SIZE; j++) {
                 System.out.print(map[i][j] + " ");
@@ -89,7 +92,7 @@ public class Main {
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         } while (isNotCellValid(x, y));
-        map[y][x] = DOT_X;
+        map[x][y] = DOT_X;
     }
 
     public static boolean isNotCellValid(int x, int y)
@@ -161,7 +164,7 @@ public class Main {
         int y = move[1];
         do {
             int bestScore = Integer.MIN_VALUE;
-            board = map.clone();
+            board = deepClone(board);
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY) {
@@ -186,7 +189,7 @@ public class Main {
     {
         int bestScore;
         if (isAiTurn){
-            bestScore = Integer.MIN_VALUE;
+            bestScore = Integer.MIN_VALUE/2;
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY){
@@ -200,7 +203,7 @@ public class Main {
                 }
             }
         } else {
-            bestScore = Integer.MAX_VALUE;
+            bestScore = Integer.MAX_VALUE/2;
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY){
@@ -217,11 +220,21 @@ public class Main {
         return bestScore;
     }
 
+    private static char[][] deepClone(char[][] originMap)
+//  Создает копию многомерного массива
+    {
+        char[][] copy = new char[originMap.length][originMap.length];
+        for (int i = 0; i < originMap.length; i++) {
+            System.arraycopy(originMap[i], 0, copy[i], 0, originMap.length);
+        }
+        return copy;
+    }
+
     private static int checkScore (char[][] map)
 //  Определяет ценность хода
     {
-        if (checkWin(DOT_O, map)) return 100;
-        else if (checkWin(DOT_X, map)) return -100;
+        if (checkWin(DOT_O, map)) return 10;
+        else if (checkWin(DOT_X, map)) return -10;
         return 0;
     }
 }
