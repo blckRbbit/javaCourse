@@ -28,7 +28,7 @@ public class Main {
             humanTurn();
             printMap();
 
-            if (checkWin(DOT_X)) {
+            if (checkWin(DOT_X, map)) {
                 System.out.println("Победил человек");
                 break;
             }
@@ -39,7 +39,7 @@ public class Main {
             aiTurn(map);
             printMap();
 
-            if (checkWin(DOT_O)) {
+            if (checkWin(DOT_O, map)) {
                 System.out.println("Победил Искуственный Интеллект");
                 break;
             }
@@ -99,7 +99,7 @@ public class Main {
         return map[x][y] != DOT_EMPTY;
     }
 
-    public static boolean checkWin(char symbol)
+    public static boolean checkWin(char symbol, char[][] board)
 //  Проверка победы
     {
         for (int col = 0; col < DOTS_TO_WIN; col++) {
@@ -186,24 +186,26 @@ public class Main {
     {
         int bestScore;
         if (isAiTurn){
-            bestScore = (Integer.MIN_VALUE) / 14;
+            bestScore = Integer.MIN_VALUE;
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY){
                         board[col][row] = DOT_O;
                         int score = minimax(board, depth + 1, HUMAN_TURN);
+                        bestScore = checkScore(board);
                         board[col][row] = DOT_EMPTY;
                         bestScore = Math.max(bestScore, score);
                     }
                 }
             }
         } else {
-            bestScore = Integer.MAX_VALUE / 14;
+            bestScore = Integer.MAX_VALUE;
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY){
                         board[col][row] = DOT_X;
                         int score = minimax(board, depth + 1, AI_TURN);
+                        bestScore = checkScore(board);
                         board[col][row] = DOT_EMPTY;
                         bestScore = Math.min(bestScore, score);
                     }
@@ -212,16 +214,12 @@ public class Main {
         }
         return bestScore;
     }
-}
 
-//    public static void aiTurn()
-////  Ход искусственного интеллекта
-//    {
-//        int x, y;
-//        do {
-//            x = random.nextInt(SIZE);
-//            y = random.nextInt(SIZE);
-//        } while (isNotCellValid(x, y));
-//        System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
-//        map[y][x] = DOT_O;
-//    }
+    private static int checkScore (char[][] map)
+//  Определяет ценность хода
+    {
+        if (checkWin(DOT_O, map)) return 100;
+        else if (checkWin(DOT_X, map)) return -100;
+        return 0;
+    }
+}
