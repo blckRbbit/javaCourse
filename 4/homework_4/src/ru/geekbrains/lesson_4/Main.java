@@ -3,14 +3,16 @@ package ru.geekbrains.lesson_4;
 import java.util.Scanner;
 
 public class Main {
-    public static int SIZE = 3;
-    public static int DOTS_TO_WIN = 3;
-    public static final char DOT_EMPTY = '•';
-    public static final char DOT_X = 'X';
-    public static final char DOT_O = 'O';
-    public static char[][] map;
+    private static final char DOT_EMPTY = '•';
+    private static final char DOT_X = 'X';
+    private static final char DOT_O = 'O';
     private static final boolean AI_TURN = true;
     private static final boolean HUMAN_TURN = false;
+
+    public static int SIZE = 3;
+    public static int DOTS_TO_WIN = 3;
+    public static char[][] map;
+
 
     public static Scanner scanner = new Scanner(System.in);
 
@@ -23,28 +25,28 @@ public class Main {
 //  Основной игровой цикл
     {
         initMap();
-        printMap();
+        printMap(map);
         while (true) {
             humanTurn();
-            printMap();
+            printMap(map);
 
             if (checkWin(DOT_X, map)) {
                 System.out.println("Победил человек");
                 break;
             }
-            if (isMapFull()) {
+            if (isMapFull(map)) {
                 System.out.println("Ничья");
                 break;
             }
             aiTurn(map);
-            printMap();
+            printMap(map);
 
             if (checkWin(DOT_O, map)) {
                 System.out.println("Победил Искуственный Интеллект");
                 break;
             }
 
-            if (isMapFull()) {
+            if (isMapFull(map)) {
                 System.out.println("Ничья");
                 break;
             }
@@ -63,20 +65,17 @@ public class Main {
         }
     }
 
-    public static void printMap()
+    public static void printMap(char[][] board)
 //  Вывод игрового поля в консоль
     {
-        System.out.println();
-        System.out.print("             ");
         for (int i = 0; i <= SIZE; i++) {
             System.out.print(i + " ");
         }
         System.out.println();
         for (int i = 0; i < SIZE; i++) {
-            System.out.print("             ");
             System.out.print((i + 1) + " ");
             for (int j = 0; j < SIZE; j++) {
-                System.out.print(map[i][j] + " ");
+                System.out.print(board[i][j] + " ");
             }
             System.out.println();
         }
@@ -92,31 +91,30 @@ public class Main {
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
         } while (isNotCellValid(x, y));
-        map[x][y] = DOT_X;
+        map[y][x] = DOT_X;
     }
 
     public static boolean isNotCellValid(int x, int y)
 //  Проверка на валидность ячейки
     {
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return true;
-        return map[x][y] != DOT_EMPTY;
+        return map[y][x] != DOT_EMPTY;
     }
 
-    public static boolean checkWin(char symbol, char[][] board)
+    public static boolean checkWin(char symbol, char[][] map)
 //  Проверка победы
     {
         for (int col = 0; col < DOTS_TO_WIN; col++) {
             for (int row = 0; row < DOTS_TO_WIN; row++) {
-                if (checkDiagonal(symbol) || checkLine(symbol)) return true;
+                if (checkDiagonal(symbol, map) || checkLine(symbol, map)) return true;
             }
         }
         return false;
     }
 
-    public static boolean checkDiagonal(char symbol)
+    public static boolean checkDiagonal(char symbol, char[][] map)
 //  Проверка заполненности диагоналей
     {
-//        char[][] board = new char [DOTS_TO_WIN][DOTS_TO_WIN];
         boolean toRight, toLeft;
         toRight = true;
         toLeft = true;
@@ -127,10 +125,9 @@ public class Main {
         return toRight || toLeft;
     }
 
-    public static boolean checkLine(char symbol)
+    public static boolean checkLine(char symbol, char[][] map)
 //  Проверка заполненности строк и столбцов
     {
-//        char[][] board = new char [DOTS_TO_WIN][DOTS_TO_WIN];
         boolean cols, rows;
         for (int col = 0; col < DOTS_TO_WIN; col++) {
             cols = true;
@@ -145,12 +142,12 @@ public class Main {
         return false;
     }
 
-    public static boolean isMapFull()
+    public static boolean isMapFull(char[][] board)
 //  Проверка на заполненность игрового поля
     {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (map[i][j] == DOT_EMPTY) return false;
+                if (board[i][j] == DOT_EMPTY) return false;
             }
         }
         return true;
@@ -159,82 +156,66 @@ public class Main {
     private static void aiTurn(char[][] board)
 //  Ход ИИ
     {
-        int [] move = new int[2];
-        int x = move[0];
-        int y = move[1];
+        int x;
+        int y;
         do {
+            int[] move = minimax(map, 0, AI_TURN);
+            x = move[1];
+            y = move[0];
+        } while (isNotCellValid(x, y));
+        System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
+        map[y][x] = DOT_O;
+    }
+
+    private static int[] minimax(char[][] board, int depth, boolean isAiTurn)
+//  Логика ИИ
+    {
+        if (checkWin(DOT_O, board)) {
+            return new int[] { 0, 0, 10 };
+        } else if (checkWin(DOT_X, board)) {
+            return new int[] { 0, 0, -10 };
+        } else if (isMapFull(board)) {
+            return new int[] { 0, 0, 0 };
+        }
+
+        int[] resultValues = new int[3];
+        if (isAiTurn){
             int bestScore = Integer.MIN_VALUE;
-            board = deepClone(board);
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
-                    if (board[col][row] == DOT_EMPTY) {
+                    if (board[col][row] == DOT_EMPTY){
                         board[col][row] = DOT_O;
-                        int score = minimax(board, 0, HUMAN_TURN);
+                        int[] value = minimax(board, depth + 1, HUMAN_TURN);
                         board[col][row] = DOT_EMPTY;
-                        if (score > bestScore) {
-                            bestScore = score;
-                            x = col;
-                            y = row;
+
+                        if (value[2] > bestScore) {
+                            bestScore = value[2];
+                            resultValues[2] = bestScore;
+                            resultValues[0] = col;
+                            resultValues[1] = row;
                         }
                     }
                 }
             }
-        } while (isNotCellValid(x, y));
-        System.out.println("Компьютер походил в точку " + (y + 1) + " " + (x + 1));
-        map[x][y] = DOT_O;
-    }
-
-    private static int minimax(char[][] board, int depth, boolean isAiTurn)
-//  Логика ИИ
-    {
-        int bestScore;
-        if (isAiTurn){
-            bestScore = Integer.MIN_VALUE/2;
-            for (int col = 0; col < board.length; col++) {
-                for (int row = 0; row < board.length; row++) {
-                    if (board[col][row] == DOT_EMPTY){
-                        board[col][row] = DOT_O;
-                        int score = minimax(board, depth + 1, HUMAN_TURN);
-                        bestScore = checkScore(board);
-                        board[col][row] = DOT_EMPTY;
-                        bestScore = Math.max(bestScore, score);
-                        break;
-                    }
-                }
-            }
         } else {
-            bestScore = Integer.MAX_VALUE/2;
+            int bestScore = Integer.MAX_VALUE;
             for (int col = 0; col < board.length; col++) {
                 for (int row = 0; row < board.length; row++) {
                     if (board[col][row] == DOT_EMPTY){
                         board[col][row] = DOT_X;
-                        int score = minimax(board, depth + 1, AI_TURN);
-                        bestScore = checkScore(board);
+                        int[] value = minimax(board, depth + 1, AI_TURN);
                         board[col][row] = DOT_EMPTY;
-                        bestScore = Math.min(bestScore, score);
-                        break;
+
+                        if (value[2] < bestScore) {
+                            bestScore = value[2];
+                            resultValues[2] = bestScore;
+                            resultValues[0] = col;
+                            resultValues[1] = row;
+                        }
                     }
                 }
             }
         }
-        return bestScore;
-    }
-
-    private static char[][] deepClone(char[][] originMap)
-//  Создает копию многомерного массива
-    {
-        char[][] copy = new char[originMap.length][originMap.length];
-        for (int i = 0; i < originMap.length; i++) {
-            System.arraycopy(originMap[i], 0, copy[i], 0, originMap.length);
-        }
-        return copy;
-    }
-
-    private static int checkScore (char[][] map)
-//  Определяет ценность хода
-    {
-        if (checkWin(DOT_O, map)) return 10;
-        else if (checkWin(DOT_X, map)) return -10;
-        return 0;
+        return resultValues;
     }
 }
