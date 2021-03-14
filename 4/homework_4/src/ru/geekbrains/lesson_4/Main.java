@@ -138,7 +138,6 @@ public class Main {
             }
             if (cols || rows) return true;
         }
-
         return false;
     }
 

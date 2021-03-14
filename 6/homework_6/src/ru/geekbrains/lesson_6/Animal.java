@@ -3,6 +3,7 @@ package ru.geekbrains.lesson_6;
 import java.util.Scanner;
 
 public abstract class Animal {
+
     static int animalCount = 0;
     protected String name;
     protected String breed;

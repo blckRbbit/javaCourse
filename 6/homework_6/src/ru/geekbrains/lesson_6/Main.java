@@ -8,7 +8,14 @@ public class Main {
 	Animal panteley = new Cat("Пантелей", "мэйнкун", "серый", "два с половиной");
 	Dog sharik = new Dog("Шарик", "дворняга", "пятнистый", "3");
 
-        var catCount = Cat.catCount;
+	Animal[] animals = {barsic, panteley, sharik};
+
+        for (int i = 0; i < animals.length; i++) {
+            animals[i].run();
+            animals[i].sail();
+        }
+
+	    var catCount = Cat.catCount;
         var dogCount = Dog.dogCount;
         var animalCount = Animal.animalCount;
 
